@@ -1,8 +1,8 @@
 #include <main.h>
 #use delay(crystal=20000000)
 
-char *SSID="Thuy";                  //ten wifi
-char *PASS="0908377688";            //pass wifi
+char *SSID="";                  //ten wifi
+char *PASS="";            //pass wifi
 char *WEBSITE="api.thingspeak.com"; //trang web thingspeak 
 
 #include"keypadcode.c" // code quet ban phim
