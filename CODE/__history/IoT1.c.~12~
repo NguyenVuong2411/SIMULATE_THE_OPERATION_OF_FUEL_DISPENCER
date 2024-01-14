@@ -1,7 +1,0 @@
-
-#use rs232(uart1, baud=115200,ERRORS)
-#include<IoT1.h>
-void main()
-{ printf("hello");}
-
-

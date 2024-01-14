@@ -1,4 +1,0 @@
-#include <16F877A.h>
-#include"keypadcode.c" 
-#use delay(crystal=20000000)
-
