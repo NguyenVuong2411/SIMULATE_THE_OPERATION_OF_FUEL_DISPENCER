@@ -1,7 +1,7 @@
 
 #include <keypadcode.h>
 
-unsigned INT8 HANG,COT,MP,MPT;
+unsigned int8 HANG,COT,MP,MPT;
 /////////////////////////////////////////////////////
 void TIMHANG ()
 {  HANG=0XFF;
