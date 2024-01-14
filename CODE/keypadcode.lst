@@ -1,0 +1,333 @@
+CCS PCM C Compiler, Version 5.101, 43599               07-Apr-22 13:13
+
+               Filename:   C:\Users\ACER\Dropbox\My PC (LAPTOP-BQ93S5HV)\Desktop\hello'\keypadcode.lst
+
+               ROM used:   228 words (3%)
+                           Largest free fragment is 2048
+               RAM used:   9 (2%) at main() level
+                           10 (3%) worst case
+               Stack used: 2 locations
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   0C3
+0003:  NOP
+.................... #include <keypadcode.h>
+.................... #include <16F877A.h>
+.................... //////////// Standard Header file for the PIC16F877A device ////////////////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... ////        (C) Copyright 1996, 2020 Custom Computer Services          ////
+.................... //// This source code may only be used by licensed users of the CCS C  ////
+.................... //// compiler.  This source code may only be distributed to other      ////
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction ////
+.................... //// or distribution is permitted without written permission.          ////
+.................... //// Derivative programs created using this software in object code    ////
+.................... //// form are not restricted in any way.                               ////
+.................... ///////////////////////////////////////////////////////////////////////////
+.................... #device PIC16F877A
+*
+00A5:  BCF    0A.0
+00A6:  BCF    0A.1
+00A7:  BCF    0A.2
+00A8:  ADDWF  02,F
+00A9:  GOTO   033
+00AA:  GOTO   03D
+00AB:  GOTO   047
+00AC:  GOTO   051
+.................... 
+.................... #list
+.................... 
+.................... 
+.................... #use delay(crystal=20000000)
+00AD:  MOVLW  24
+00AE:  MOVWF  04
+00AF:  BCF    03.7
+00B0:  MOVF   00,W
+00B1:  BTFSC  03.2
+00B2:  GOTO   0C0
+00B3:  MOVLW  06
+00B4:  MOVWF  78
+00B5:  CLRF   77
+00B6:  DECFSZ 77,F
+00B7:  GOTO   0B6
+00B8:  DECFSZ 78,F
+00B9:  GOTO   0B5
+00BA:  MOVLW  7B
+00BB:  MOVWF  77
+00BC:  DECFSZ 77,F
+00BD:  GOTO   0BC
+00BE:  DECFSZ 00,F
+00BF:  GOTO   0B3
+00C0:  BCF    0A.3
+00C1:  BCF    0A.4
+00C2:  GOTO   0D6 (RETURN)
+.................... 
+.................... 
+.................... 
+.................... UNSIGNED INT8 HANG,COT,MP,MPT;
+.................... VOID TIMHANG ()
+.................... {  HANG=0XFF;
+*
+0004:  MOVLW  FF
+0005:  MOVWF  20
+....................    IF(INPUT(PIN_B0)==0)  {HANG=1;}
+0006:  BSF    03.5
+0007:  BSF    06.0
+0008:  BCF    03.5
+0009:  BTFSC  06.0
+000A:  GOTO   00E
+000B:  MOVLW  01
+000C:  MOVWF  20
+000D:  GOTO   025
+....................    ELSE IF (INPUT(PIN_B1)==0) {HANG=2;}
+000E:  BSF    03.5
+000F:  BSF    06.1
+0010:  BCF    03.5
+0011:  BTFSC  06.1
+0012:  GOTO   016
+0013:  MOVLW  02
+0014:  MOVWF  20
+0015:  GOTO   025
+....................    ELSE IF (INPUT(PIN_B2)==0) {HANG=3;}
+0016:  BSF    03.5
+0017:  BSF    06.2
+0018:  BCF    03.5
+0019:  BTFSC  06.2
+001A:  GOTO   01E
+001B:  MOVLW  03
+001C:  MOVWF  20
+001D:  GOTO   025
+....................    ELSE IF (INPUT(PIN_B3)==0) {HANG=4;}
+001E:  BSF    03.5
+001F:  BSF    06.3
+0020:  BCF    03.5
+0021:  BTFSC  06.3
+0022:  GOTO   025
+0023:  MOVLW  04
+0024:  MOVWF  20
+0025:  RETURN
+.................... }
+.................... VOID KEYPRESS()
+.................... {
+....................    MP=0XFF;
+0026:  MOVLW  FF
+0027:  MOVWF  22
+....................    
+....................    FOR (COT=0;COT<4;COT++)
+0028:  CLRF   21
+0029:  MOVF   21,W
+002A:  SUBLW  03
+002B:  BTFSS  03.0
+002C:  GOTO   0A4
+....................    {
+....................       SWITCH(COT)
+002D:  MOVF   21,W
+002E:  ADDLW  FC
+002F:  BTFSC  03.0
+0030:  GOTO   05A
+0031:  ADDLW  04
+0032:  GOTO   0A5
+....................       {  CASE 0:  OUTPUT_LOW(PIN_B7);
+0033:  BSF    03.5
+0034:  BCF    06.7
+0035:  BCF    03.5
+0036:  BCF    06.7
+....................                   TIMHANG();
+0037:  CALL   004
+....................                   OUTPUT_HIGH(PIN_B7);
+0038:  BSF    03.5
+0039:  BCF    06.7
+003A:  BCF    03.5
+003B:  BSF    06.7
+....................                   BREAK;
+003C:  GOTO   05A
+....................          CASE 1:  OUTPUT_LOW(PIN_B6);
+003D:  BSF    03.5
+003E:  BCF    06.6
+003F:  BCF    03.5
+0040:  BCF    06.6
+....................                   TIMHANG();
+0041:  CALL   004
+....................                   OUTPUT_HIGH(PIN_B6);
+0042:  BSF    03.5
+0043:  BCF    06.6
+0044:  BCF    03.5
+0045:  BSF    06.6
+....................                   BREAK;
+0046:  GOTO   05A
+....................          CASE 2:  OUTPUT_LOW(PIN_B5);
+0047:  BSF    03.5
+0048:  BCF    06.5
+0049:  BCF    03.5
+004A:  BCF    06.5
+....................                   TIMHANG();
+004B:  CALL   004
+....................                   OUTPUT_HIGH(PIN_B5);
+004C:  BSF    03.5
+004D:  BCF    06.5
+004E:  BCF    03.5
+004F:  BSF    06.5
+....................                   BREAK;
+0050:  GOTO   05A
+....................          CASE 3:  OUTPUT_LOW(PIN_B4);
+0051:  BSF    03.5
+0052:  BCF    06.4
+0053:  BCF    03.5
+0054:  BCF    06.4
+....................                   TIMHANG();
+0055:  CALL   004
+....................                   OUTPUT_HIGH(PIN_B4);
+0056:  BSF    03.5
+0057:  BCF    06.4
+0058:  BCF    03.5
+0059:  BSF    06.4
+....................                   BREAK;
+....................       }
+....................       IF (HANG!=0XFF) {
+005A:  INCFSZ 20,W
+005B:  GOTO   05D
+005C:  GOTO   0A2
+....................       MP=(HANG*4)+COT;
+005D:  RLF    20,W
+005E:  MOVWF  77
+005F:  RLF    77,F
+0060:  MOVLW  FC
+0061:  ANDWF  77,F
+0062:  MOVF   77,W
+0063:  ADDWF  21,W
+0064:  MOVWF  22
+....................         IF (4<MP<8)  
+0065:  MOVF   22,W
+0066:  SUBLW  04
+0067:  BTFSS  03.0
+0068:  GOTO   06B
+0069:  MOVLW  00
+006A:  GOTO   06C
+006B:  MOVLW  01
+006C:  SUBLW  07
+006D:  BTFSS  03.0
+006E:  GOTO   079
+....................         {MP = (HANG*4)+COT-1;}
+006F:  RLF    20,W
+0070:  MOVWF  77
+0071:  RLF    77,F
+0072:  MOVLW  FC
+0073:  ANDWF  77,F
+0074:  MOVF   77,W
+0075:  ADDWF  21,W
+0076:  ADDLW  FF
+0077:  MOVWF  22
+0078:  GOTO   0A1
+....................          ELSE IF (MP==4)
+0079:  MOVF   22,W
+007A:  SUBLW  04
+007B:  BTFSS  03.2
+007C:  GOTO   080
+....................          {MP=20;}
+007D:  MOVLW  14
+007E:  MOVWF  22
+007F:  GOTO   0A1
+....................          ELSE IF (MP==8)
+0080:  MOVF   22,W
+0081:  SUBLW  08
+0082:  BTFSS  03.2
+0083:  GOTO   087
+....................          {MP=50;}
+0084:  MOVLW  32
+0085:  MOVWF  22
+0086:  GOTO   0A1
+....................          ELSE IF (MP==12)
+0087:  MOVF   22,W
+0088:  SUBLW  0C
+0089:  BTFSS  03.2
+008A:  GOTO   08E
+....................          {MP=100;}
+008B:  MOVLW  64
+008C:  MOVWF  22
+008D:  GOTO   0A1
+....................          ELSE IF (8<MP<12)
+008E:  MOVF   22,W
+008F:  SUBLW  08
+0090:  BTFSS  03.0
+0091:  GOTO   094
+0092:  MOVLW  00
+0093:  GOTO   095
+0094:  MOVLW  01
+0095:  SUBLW  0B
+0096:  BTFSS  03.0
+0097:  GOTO   0A1
+....................           {MP = (HANG*4)+COT-1;}
+0098:  RLF    20,W
+0099:  MOVWF  77
+009A:  RLF    77,F
+009B:  MOVLW  FC
+009C:  ANDWF  77,F
+009D:  MOVF   77,W
+009E:  ADDWF  21,W
+009F:  ADDLW  FF
+00A0:  MOVWF  22
+....................          BREAK;}
+00A1:  GOTO   0A4
+00A2:  INCF   21,F
+00A3:  GOTO   029
+....................    }
+00A4:  RETURN
+....................    
+....................  } 
+.................... 
+.................... VOID MAIN()
+*
+00C3:  MOVF   03,W
+00C4:  ANDLW  1F
+00C5:  MOVWF  03
+00C6:  BSF    03.5
+00C7:  BSF    1F.0
+00C8:  BSF    1F.1
+00C9:  BSF    1F.2
+00CA:  BCF    1F.3
+00CB:  MOVLW  07
+00CC:  MOVWF  1C
+00CD:  BCF    03.7
+.................... {
+....................    KEYPRESS();
+00CE:  BCF    03.5
+00CF:  CALL   026
+....................    IF (MP!=0XFF)
+00D0:  INCFSZ 22,W
+00D1:  GOTO   0D3
+00D2:  GOTO   0E3
+....................    {
+....................       DELAY_MS(10);
+00D3:  MOVLW  0A
+00D4:  MOVWF  24
+00D5:  GOTO   0AD
+....................       KEYPRESS();
+00D6:  CALL   026
+....................       IF(MP!=0XFF)
+00D7:  INCFSZ 22,W
+00D8:  GOTO   0DA
+00D9:  GOTO   0E3
+....................       {
+....................          MPT=MP;
+00DA:  MOVF   22,W
+00DB:  MOVWF  23
+....................          
+....................          WHILE(MP!=0XFF) {KEYPRESS();}
+00DC:  INCFSZ 22,W
+00DD:  GOTO   0DF
+00DE:  GOTO   0E1
+00DF:  CALL   026
+00E0:  GOTO   0DC
+....................          MP=MPT;
+00E1:  MOVF   23,W
+00E2:  MOVWF  22
+....................       }
+....................    }
+....................    }
+.................... 
+00E3:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3F72   HS NOWDT PUT BROWNOUT NOLVP NOCPD NOWRT NODEBUG NOPROTECT

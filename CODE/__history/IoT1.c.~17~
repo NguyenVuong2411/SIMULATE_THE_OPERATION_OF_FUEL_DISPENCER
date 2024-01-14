@@ -1,0 +1,8 @@
+#use rs232(UART1,baud=125000,parity=N,bits=8,stream=WIFI_ESP,errors)
+#use delay(crystal=20000000)
+#include<IoT1.h>
+void main()
+{ printf("hello");
+}
+
+

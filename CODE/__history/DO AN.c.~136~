@@ -1,0 +1,56 @@
+#include <DO AN.h>
+#define lcd_enable_pin  PIN_E2
+#define lcd_rs_pin      PIN_E0      
+#define lcd_rw_pin      PIN_E1
+#define lcd_data4       PIN_D4
+#define lcd_data5       PIN_D5
+#define lcd_data6       PIN_D6
+#define lcd_data7       PIN_D7
+
+         // KHAI BÁO BIEN//~~
+float LIT, tien;
+unsigned int8 a;
+         //             //
+         //CHUONG TRINH NGAT DO LUU LUONG//~~
+#INT_EXT
+void  EXT_isr(void) 
+{ a=a+1;
+   if (a<445){
+  LIT = LIT + 0.00225;
+  tien = tien + 49.5;
+  output_bit(PIN_A0, 1);
+   clear_interrupt(INT_EXT); }
+  else {
+  output_bit(PIN_A0, 0); 
+  clear_interrupt(INT_EXT);}
+ }
+            //CHUONG TRINH CHINH//~~
+#include <lcd.c>
+
+void main()
+{
+   
+   set_tris_B(0x0F); // B input
+   set_tris_D(0);    // D output
+   set_tris_E(0);    // E output
+   set_tris_A(0);
+   enable_interrupts(INT_EXT);      // ngat ngoai
+   enable_interrupts(GLOBAL);  // ngat toan cuc
+   ext_int_edge(H_TO_L);     // ngat canh len
+   lcd_init();                      // khoi dong LCD
+  
+   while(TRUE)
+   {
+      lcd_gotoxy(1,1);                          // dong 1, cot 1 LCD
+      printf(lcd_putc,"SO TIEN: %0.0f", tien);  // hien thi tong tien
+      lcd_gotoxy(1,2);                          // dong 2, cot 1 LCD
+      printf(lcd_putc,"SO LIT: %0.5f ", LIT);   // hien thi so lit xang  
+      lcd_gotoxy(21,2);                         // dong 2, cot 1 LCD
+      printf(lcd_putc,"DON GIA: 22000VND/L");    
+      lcd_gotoxy(21,1);                         // dong 2, cot 1 LCD
+      printf(lcd_putc,"CHON GIA:");    
+   }
+
+
+    
+}

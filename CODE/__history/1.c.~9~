@@ -1,0 +1,42 @@
+#include <16F877A.h>
+#device ADC=10
+#use delay(crystal=20000000)
+
+#define lcd_enable_pin  PIN_E2
+#define lcd_rs_pin      PIN_E0      
+#define lcd_rw_pin      PIN_E1
+#define lcd_data4       PIN_D4
+#define lcd_data5       PIN_D5
+#define lcd_data6       PIN_D6
+#define lcd_data7       PIN_D7
+#include <lcd.c>
+
+unsigned int8 a;
+float LIT ;
+
+void main()
+{           enable_interrupts(global);
+            enable_interrupts(int_ext);
+            ext_int_edge(H_TO_L);
+            set_tris_B(0xFF);
+            set_tris_D(0);
+            set_tris_E(0);
+            lcd_init();
+            //
+           
+          
+            lcd_gotoxy(1,1);
+            lcd_putc("SO TIEN");
+            lcd_gotoxy(1,2);
+            printf(lcd_putc,"SO LIT: %0.2f", LIT);
+          
+            
+            while(true);
+            }
+            //
+   void interrupt(void)
+   {     
+            LIT = LIT+2.25;
+              
+   }
+   

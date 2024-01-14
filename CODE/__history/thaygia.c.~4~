@@ -1,0 +1,29 @@
+#include <thaygia.h>
+#include<keypadcode.c>
+NE:  output_bit(PIN_A0, 1);
+   KEY_4X4();
+   if(MP!=0x0FF)
+   {
+      if(MP<11) 
+         {   m = m++;
+             b = b*(10^(m)) + MP;
+             
+           
+         for(a2=0; a2<16; a2++)
+            {
+               CHUOI2[a2]=CHUOI2[a2+1];
+               
+               }
+           
+               CHUOI2[15]=MP+0x30;
+               
+      /////////////////////
+               lcd_gotoxy(21,2);
+               for (a2=0; a2<16; a2++)
+               {lcd_putc(CHUOI2[a2]);
+               }
+             
+               }
+               else if 
+
+     

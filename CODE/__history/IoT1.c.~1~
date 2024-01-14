@@ -1,0 +1,16 @@
+#include <IoT1.h>
+
+void main()
+{
+	setup_wdt(WDT_ON);
+	setup_wdt(WDT_18MS|WDT_DIV_16);		//~18.0 ms reset
+
+
+	while(TRUE)
+	{
+
+
+		//TODO: User Code
+	}
+
+}

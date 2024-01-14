@@ -1,0 +1,17 @@
+
+#include <stdio.h>
+
+void heheh() {
+
+
+  printf("AT+CIPSTART=\"TCP\",\"%s\",80\r\n",WEBSITE);delay_ms(2000);  //wait connect
+  length= strlen(xang);
+  length1= strlen(tien1);
+  printf("AT+CIPSEND=%i\r\n",length);delay_ms(500);
+  printf("AT+CIPSEND=%i\r\n",length1);delay_ms(500);
+  sprintf(xang,"GET /index.html HTTP/1.1\r\nHost: vuongnguyen2411.infinityfreeapp.com\r\n\r\n");
+  sprintf(tien1,"GET /index.html HTTP/1.1\r\nHost: vuongnguyen2411.infinityfreeapp.com\r\n\r\n");
+  printf(xang);delay_ms(1000);
+  printf(tien1);delay_ms(1000);
+  printf("AT+CIPCLOSE\r\n");delay_ms(200);
+  }

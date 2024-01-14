@@ -1,0 +1,13 @@
+#include <hello.h>
+#use rs232(baud=115200,xmit=PIN_C6, rcv=PIN_C7)
+
+void main()
+{
+
+output_bit(PIN_C6,1);
+output_bit(PIN_C7,1);
+ printf("ne");
+      //TODO: User Code
+   
+
+}

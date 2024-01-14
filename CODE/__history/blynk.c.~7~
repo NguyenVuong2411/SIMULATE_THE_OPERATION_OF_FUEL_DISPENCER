@@ -1,0 +1,18 @@
+#include <SerialESP8266wifi.h>
+
+/* TODO: SMTP Enabled. The EmailNow() function needs to be
+called in the main program when you are ready to send the
+email. EmailNow() can be called, for example, on a
+pushbutton press or a timer event. Make sure enough time
+is given between subsequent emails for the SMTP state
+machine to finish processing the previous request. */
+
+void EmailInit(void)
+{    Serial.printf("Nhiet do %s - Do am %s\r\n", String(temp, 1).c_str(), String(humi, 1).c_str());
+  }
+  client.stop();                          
+  
+   client.print("GET " + req_uri + " HTTP/1.1\n" + "Host: "+ server +"\n" + "Connection: close\n" + "Content-Length: 0\n" +"\n\n");   
+
+}
+

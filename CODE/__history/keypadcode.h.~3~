@@ -1,0 +1,6 @@
+#include <16F877A.h>
+void TIMHANG ();
+void KEYPRESS();
+void KEY_4X4();
+#use delay(crystal=20000000)
+

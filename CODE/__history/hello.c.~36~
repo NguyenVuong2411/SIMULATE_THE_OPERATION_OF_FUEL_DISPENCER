@@ -1,0 +1,15 @@
+#include <hello.h>
+#use rs232(baud=9200,xmit=PIN_C6, rcv=PIN_C7)
+unsigned int8 a;
+void main()
+{ 
+  a=12;
+   enable_interrupts(INT_TBE);
+   enable_interrupts(INT_RDA);
+   enable_interrupts(GLOBAL);
+   while(true){
+ printf("%d\r",a);
+      //TODO: User Code
+   }
+
+}

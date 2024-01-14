@@ -1,0 +1,15 @@
+ÀÄkeypadcode
+   ÀÄMAIN  0/33  Ram=0
+      ÃÄ@cinit1  (Inline)  Ram=0
+      ÃÄ@cinit2  (Inline)  Ram=0
+      ÃÄKEYPRESS  0/127  Ram=1
+      ³  ÃÄ@goto9667  0/8  Ram=0
+      ³  ÃÄTIMHANG  0/34  Ram=1
+      ³  ÃÄTIMHANG  0/34  Ram=1
+      ³  ÃÄTIMHANG  0/34  Ram=1
+      ³  ÀÄTIMHANG  0/34  Ram=1
+      ÃÄ@delay_ms1  0/22  Ram=1
+      ÃÄKEYPRESS  0/127  Ram=1
+      ³  ÀÄ*
+      ÀÄKEYPRESS  0/127  Ram=1
+         ÀÄ*

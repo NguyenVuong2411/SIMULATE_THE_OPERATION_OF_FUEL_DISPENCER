@@ -1,0 +1,240 @@
+#include <IoT.h>
+#use delay(crystal=20000000)
+
+//Khai bao su dung uart cung  
+
+char *SSID="Thuy";                  //your wifi
+char *PASS="0908377688";                //your wifi
+char *WEBSITE="api.thingspeak.com"; 
+
+
+#include <stddef.h>
+#include <ctype.h>
+#include <stdio.h>
+
+#include<keypadcode.c>
+
+#define lcd_enable_pin  PIN_E2
+#define lcd_rs_pin      PIN_E0      
+#define lcd_rw_pin      PIN_E1
+#define lcd_data4       PIN_D4
+#define lcd_data5       PIN_D5
+#define lcd_data6       PIN_D6
+#define lcd_data7       PIN_D7
+
+ // KHAI BÁO BIEN//~~
+
+UNSIGNED INT8 CHUOI1[] = {"                "};
+
+UNSIGNED INT16 a1, a2,   m, k;
+float a,b,c,d, f,  LIT;
+ 
+UNSIGNED INT16 m1, tien;
+
+UNSIGNED INT8 CHUOI2[] = {"                "};
+
+//////////////////////////////////////////////////////
+
+
+
+   ///// CHUONG TRINH NGAT////////
+#INT_EXT
+void  EXT_isr(void) 
+{ 
+   k=k+1;
+   if (k<d){
+  LIT = LIT + 0.00225;
+  tien = tien + b*0.00225;
+  output_bit(PIN_A0, 1);
+  
+   clear_interrupt(INT_EXT); 
+   }
+ 
+  else  {
+  output_bit(PIN_A0, 0); 
+  delay_ms(200);
+  
+   int8 tien1;
+   tien1 = tien/(10e2);
+  int i;
+  printf("AT+CIPSTART=\"TCP\",\"%s\",80\r\n",WEBSITE);delay_ms(2000); 
+  printf("AT+CIPSEND=200\r\n");delay_ms(2000);
+  for (i=0 ; i<2 ; i++) {
+  printf("GET https://api.thingspeak.com/update?api_key=KX3VVF8T35C0WFPA&field2=%d HTTP/1.1\r\nHost: api.thingspeak.com\r\nAConnection: keep-alive\r\n\r\n",tien1);
+  }
+   //wait connect
+  printf("%ld\r\n",tien);delay_ms(10000);
+  printf("AT+CIPCLOSE\r\n");delay_ms(200);
+  clear_interrupt(INT_EXT);
+  }
+ 
+ }
+ 
+ 
+ 
+
+
+ ////////////////////////////
+#include <lcd.c>
+
+ //CHUONG TRINH CHINH//~~
+void main()
+{ 
+   
+   set_tris_B(0x0F); // B input
+   set_tris_D(0);    // D output
+   set_tris_E(0);    // E output
+   set_tris_A(0);
+   output_bit(PIN_A0, 1);
+   enable_interrupts(INT_EXT);      // ngat ngoai
+   enable_interrupts(GLOBAL);  // ngat toan cuc
+   ext_int_edge(H_TO_L);  
+    
+   lcd_init(); 
+ printf("AT\r\n");delay_ms(1000);
+ printf("ATE0\r\n");delay_ms(1000);
+ printf("AT+CWMODE=1\r\n");delay_ms(1000);
+ printf("AT+CWJAP=\"%s\",\"%s\"\r\n",SSID,PASS);delay_ms(4000); // thay mat khau va tai khoan tuong ung
+ printf("AT+CIPMUX=0\r\n");delay_ms(1000);
+    LAP: 
+      
+   KEY_4X4();
+   if(MP!=0x0FF)
+   {
+      if(MP<11) 
+         {   m = m++;
+             f = f*(10^(m)) + MP;
+             if (f>100){
+             c = f/b;
+             d = c/(2.25e-3);}
+             else {d=f/0.00225;}
+           
+         for(a1=0; a1<16; a1++)
+            {
+               CHUOI1[a1]=CHUOI1[a1+1];
+               
+               }
+           
+               CHUOI1[15]=MP+0x30;
+               
+      /////////////////////
+               lcd_gotoxy(21,1);
+               for (a1=0; a1<16; a1++)
+               {lcd_putc(CHUOI1[a1]);
+               }
+             
+               }
+          else if(MP==50)
+          { 
+          
+          lcd_gotoxy(31,1);
+            printf(lcd_putc,"30000");
+             a = 30000;
+             c = a/b;
+             d = c/(2.25e-3);
+             
+                  }
+          else if (MP==20)
+          { 
+           lcd_gotoxy(31,1);
+            printf(lcd_putc,"20000");
+             a = 20000;
+             c = a/b;
+             d = c/(2.25e-3);
+          
+             
+          }
+          
+                  
+          else if (MP==100)
+          { 
+           lcd_gotoxy(31,1);
+            printf(lcd_putc,"40000");
+             a = 40000;
+             c = a/b;
+             d = c/(2.25e-3);
+           
+             
+          }
+          
+          
+          
+           else if (MP==22)
+          { output_bit(PIN_A0, 1);
+          c = 0;
+                d = m = f = 0 ;
+          tien = 0.00000;
+          
+          k = LIT = 0;
+          
+          lcd_gotoxy(31,1);
+               for (a1=0; a1<16; a1++)
+               {CHUOI1[a1]= 0x01;
+             
+               lcd_putc(CHUOI1[a1]);
+            
+               }
+          } 
+          
+          else if (MP ==23) 
+          {   NE: 
+             KEY_4X4();
+   if(MP!=0x0FF)
+   {
+      if(MP<11) 
+         {   m1 = m1++;
+             b = b*(10^(m1)) + MP;
+             
+           
+         for(a2=0; a2<16; a2++)
+            {
+               CHUOI2[a2]=CHUOI2[a2+1];
+               
+               }
+           
+               CHUOI2[15]=MP+0x30;
+               
+      /////////////////////
+               lcd_gotoxy(21,2);
+               for (a2=0; a2<16; a2++)
+               {lcd_putc(CHUOI2[a2]);
+               }
+             
+               }
+               else if (MP == 23)
+              
+               { goto LAP; }
+               
+               
+               
+               } goto NE; }
+               
+               else if (MP == 24)
+               {m1 =0;
+                b = 0; 
+                 lcd_gotoxy(21,2);
+               for (a2=0; a2<16; a2++)
+               {CHUOI2[a2]= 0x01;
+             
+               lcd_putc(CHUOI2[a2]);
+              
+               }
+             
+                }
+          
+       }
+                  
+      lcd_gotoxy(1,1);                          // dong 1, cot 1 LCD
+      printf(lcd_putc,"SO TIEN: %ld", tien);  // hien thi tong tien
+      lcd_gotoxy(1,2);                          // dong 2, cot 1 LCD
+      printf(lcd_putc,"SO LIT: %0.7f ", LIT);   // hien thi so lit xang  
+      lcd_gotoxy(21,2);                         // dong 2, cot 1 LCD
+      printf(lcd_putc,"DON GIA: ");    
+      lcd_gotoxy(21,1);                         // dong 2, cot 1 LCD
+      printf(lcd_putc,"CHON GIA:");   
+                   
+                goto LAP;
+                 
+                  }
+                  
+

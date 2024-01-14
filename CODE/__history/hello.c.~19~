@@ -1,0 +1,12 @@
+#include <hello.h>
+#use rs232(baud=115200,parity=N, xmit=PIN_C6, rcv=PIN_C7,bits=8)
+
+void main()
+{
+
+ set_tris_C(0);
+ printf("ne");
+      //TODO: User Code
+   
+
+}

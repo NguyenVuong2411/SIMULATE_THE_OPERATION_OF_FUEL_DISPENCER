@@ -1,0 +1,82 @@
+#include <keypadcode.h>
+
+UNSIGNED INT8 HANG,COT,MP,MPT;
+
+/////////////////////////////////////////////////////
+VOID TIMHANG ()
+{  HANG=0XFF;
+   IF(INPUT(PIN_C0)==0)  {HANG=0;}
+   ELSE IF (INPUT(PIN_C1)==0) {HANG=1;}
+   ELSE IF (INPUT(PIN_C2)==0) {HANG=2;}
+   ELSE IF (INPUT(PIN_C3)==0) {HANG=3;}
+}
+VOID KEYPRESS()
+{
+   MP=0XFF;
+   
+   FOR (COT=0;COT<4;COT++)
+   {
+      SWITCH(COT)
+      {  CASE 0:  OUTPUT_LOW(PIN_C7);
+                  TIMHANG();
+                  OUTPUT_HIGH(PIN_C7);
+                  BREAK;
+         CASE 1:  OUTPUT_LOW(PIN_C6);
+                  TIMHANG();
+                  OUTPUT_HIGH(PIN_C6);
+                  BREAK;
+         CASE 2:  OUTPUT_LOW(PIN_C5);
+                  TIMHANG();
+                  OUTPUT_HIGH(PIN_C5);
+                  BREAK;
+         CASE 3:  OUTPUT_LOW(PIN_C4);
+                  TIMHANG();
+                  OUTPUT_HIGH(PIN_C4);
+                  BREAK;
+      }
+      IF (HANG!=0XFF) {
+      
+      MP=(HANG*4)+COT; 
+         IF(MP<3)
+         {MP=MP+1;
+         BREAK; }
+         ELSE IF (MP==3) 
+         {MP=20;
+         BREAK;}
+         ELSE IF (3<MP<6)
+         {MP=MP;
+         BREAK;}
+         ELSE IF (MP==7)
+         {MP=MP-1;
+         BREAK;}
+         ELSE IF (7<MP<11)
+         {MP=MP-1;
+         BREAK;}
+         ELSE IF (MP==13)
+         {MP=MP-MP;
+         BREAK;}
+         
+      
+      
+      BREAK;}
+   }
+   
+  
+}
+
+VOID KEY_4X4()
+{
+   KEYPRESS();
+   IF (MP!=0XFF)
+   {
+      DELAY_MS(10);
+      KEYPRESS();
+      IF(MP!=0XFF)
+      {
+         MPT=MP;
+         
+         WHILE(MP!=0XFF) {KEYPRESS();}
+         MP=MPT;
+      }
+   }
+}

@@ -1,0 +1,12 @@
+#include <hello.h>
+#use rs232(baud=9200,xmit=PIN_C6, rcv=PIN_C7)
+unsigned int8 a;
+void main()
+{ 
+  a=12;
+
+ printf("%d\r",a);
+      //TODO: User Code
+   
+
+}
