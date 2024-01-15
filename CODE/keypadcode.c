@@ -1,5 +1,4 @@
-
-#include <keypadcode.h>
+#include <keypadcode.c>
 
 UNSIGNED INT8 HANG,COT,MP,MPT;
 /////////////////////////////////////////////////////
