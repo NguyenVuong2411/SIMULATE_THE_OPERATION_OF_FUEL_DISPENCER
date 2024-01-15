@@ -1,6 +1,7 @@
 #include <keypadcode.h>
 
-unsigned int8 HANG,COT,MP,MPT; // khai bao 
+unsigned int8 HANG,COT,MP,MPT; 
+int mau;
 /////////////////////////////////////////////////////
 void TIMHANG ()
 {  HANG=0XFF;
