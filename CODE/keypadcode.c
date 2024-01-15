@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#include <keypadcode.c>
-=======
 #include <keypadcode.h>
->>>>>>> 7c5c7a0de6fa68d1a7fbe8299711556d2d6aca46
 
 unsigned int8 HANG,COT,MP,MPT; // khai bao
 /////////////////////////////////////////////////////
