@@ -76,10 +76,10 @@ void main()
    printf("AT+CIPMUX=0\r\n");delay_ms(1000);
    
    LAP:    
-   KEY_4X4();
-   if(MP!=0x0FF)
+   KEY_4X4();                 // quet ban phim 
+   if(MP!=0x0FF)              // neu co nut dc nhan
    {
-     if(MP<11) 
+     if(MP<11)                // nut nhan la so
          {   m = m++;
              f = f*(10^(m)) + MP;  // f la gia tri tien nhap vao
              if (f>100){
@@ -99,15 +99,14 @@ void main()
                }
                
                }
-          else if(MP==50) 
+          else if(MP==50)                 // nut mac dinh bom 30k
           { 
            lcd_gotoxy(31,1);
-           printf(lcd_putc,"30000");
-             a = 30000;
+           printf(lcd_putc,"30000");       
              c = a/b;
              d = c/(2.25e-3);
                   }
-          else if (MP==20)
+          else if (MP==20)                // mut mac dinh bom 20k
           { 
            lcd_gotoxy(31,1);
             printf(lcd_putc,"20000");
@@ -115,7 +114,7 @@ void main()
              c = a/b;
              d = c/(2.25e-3);     
           }      
-          else if (MP==100)
+          else if (MP==100)               // nut mac dinh bom 40k 
           { 
            lcd_gotoxy(31,1);
             printf(lcd_putc,"40000");
@@ -135,7 +134,7 @@ void main()
                lcd_putc(CHUOI1[a1]);         
                }
           } 
-          else if (MP ==23) 
+          else if (MP ==23)                      // nhap gia tri don gia moi
           {   
             NE:
             KEY_4X4();
@@ -157,12 +156,12 @@ void main()
              
                                 }
                     else if (MP == 23)
-                         { goto LAP; }
+                         { goto LAP; }     // neu duoc nhan lan nua thi thoat ra ngoai tiep tuc quet phim 
                         } 
                         
-                        goto NE; }
+                        goto NE; }        // tiep tuc quet ban phim de nhan gia tri don gia 
                
-                    else if (MP == 24)
+                    else if (MP == 24)    // xoa gia tri don gia hien tai
                          {
                             m1 =0;
                             b = 0; 
