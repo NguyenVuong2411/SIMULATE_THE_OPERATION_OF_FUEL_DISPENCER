@@ -2,7 +2,7 @@
 #use delay(crystal=20000000)
 
 char *SSID="";                  //ten wifi.
-char *PASS="";            //pass wifi
+char *PASS="";                  //pass wifi
 char *WEBSITE="api.thingspeak.com"; //trang web thingspeak 
 
 #include"keypadcode.c" // code quet ban phim
@@ -19,18 +19,20 @@ char *WEBSITE="api.thingspeak.com"; //trang web thingspeak
  // KHAI BAO BIEN//
 
 unsigned int8 CHUOI1[] = {"                "};
-unsigned int16 a1, a2, m1,  m, k;
-float a,b,c,d, f,  LIT, tien, tien1;
+unsigned int16 a1, a2, m1, m, k;
+float tien_Mua_macdinh, gia_Tien_1l,soLit_can_dem, soXung_can_dem, giaTri_nhap, LIT, soTien_tra, tienNghin;
 unsigned int8 CHUOI2[] = {"                "};
-
+// KHAI BAO HAM//
+void tinhXung_can_dem(float *a ,float *b );
+void  EXT_isr(void) ;
 ///// CHUONG TRINH NGAT NGOAI ////////
 #INT_EXT
 void  EXT_isr(void) 
 { 
    k=k+1;
-   if (k<d){
+   if (k<soXung_can_dem){
    LIT = LIT + 0.00225;
-   tien = tien + b*0.00225;
+   soTien_tra = soTien_tra + gia_Tien_1l*0.00225;
    output_bit(PIN_A0, 1);
    clear_interrupt(INT_EXT); 
             }
@@ -40,13 +42,13 @@ void  EXT_isr(void)
    delay_ms(200);
  
    // GUI DU LIEU LEN WEB SAU MOI LAN BOM //
-   tien1 = tien/(10e2); 
+   tienNghin = soTien_tra/(10e2); 
    int i;
    printf("AT+CIPSTART=\"TCP\",\"%s\",80\r\n",WEBSITE);delay_ms(2000); 
    printf("AT+CIPSEND=200\r\n");delay_ms(2000);
   
    for (i=0 ; i<2 ; i++) {
-   printf("GET https://api.thingspeak.com/update?api_key=KX3VVF8T35C0WFPA&field2=%0.3f&field1=%0.3f HTTP/1.1\r\nHost: api.thingspeak.com\r\nConnection: keep-alive\r\n\r\n",tien1,LIT);
+   printf("GET https://api.thingspeak.com/update?api_key=KX3VVF8T35C0WFPA&field2=%0.3f&field1=%0.3f HTTP/1.1\r\nHost: api.thingspeak.com\r\nConnection: keep-alive\r\n\r\n",tienNghin,LIT);
    }
    delay_ms(700);
    printf("AT+CIPCLOSE\r\n");delay_ms(200);
@@ -54,7 +56,14 @@ void  EXT_isr(void)
   }
  
 }
- 
+
+//CHUONG TRINH TINH XUNG CAN DEM//
+void tinhXung_can_dem(float *tien_Mua, float *gia_Tien_1l)
+ {
+      soLit_can_dem = (*tien_Mua)/(*gia_Tien_1l);
+      soXung_can_dem = soLit_can_dem/(2.25e-3);  
+ }
+     
  //CHUONG TRINH CHINH//~~
 #include <lcd.c>
 void main()
@@ -81,11 +90,10 @@ void main()
    {
      if(MP<11)                // nut nhan la so
          {   m = m++;
-             f = f*(10^(m)) + MP;  // f la gia tri tien nhap vao
-             if (f>100){
-             c = f/b;
-             d = c/(2.25e-3);}    // d la so xung can dem 
-             else {d=f/0.00225;}
+             giaTri_nhap = giaTri_nhap*(10^(m)) + MP;  
+             if (giaTri_nhap>100){                    // neu gia tri nhap lon hon 100 thi nhan la so lit
+             tinhXung_can_dem(&giaTri_nhap,&gia_Tien_1l);}   
+             else {soXung_can_dem=giaTri_nhap/0.00225;}
            
          for(a1=0; a1<16; a1++)
             {
@@ -99,34 +107,32 @@ void main()
                }
                
                }
-          else if(MP==50)                 // nut mac dinh bom 30k
+          else if(MP==20)                 // nut mac dinh bom 30k
           { 
            lcd_gotoxy(31,1);
-           printf(lcd_putc,"30000");       
-             c = a/b;
-             d = c/(2.25e-3);
+           printf(lcd_putc,"20000");   
+             tien_Mua_macdinh= 20000;    
+             tinhXung_can_dem(&tien_Mua_macdinh,&gia_Tien_1l);
                   }
-          else if (MP==20)                // mut mac dinh bom 20k
+          else if (MP==50)                // mut mac dinh bom 50k
           { 
            lcd_gotoxy(31,1);
-            printf(lcd_putc,"20000");
-             a = 20000;
-             c = a/b;
-             d = c/(2.25e-3);     
+            printf(lcd_putc,"50000");
+             tien_Mua_macdinh = 50000;
+             tinhXung_can_dem(&tien_Mua_macdinh,&gia_Tien_1l);   
           }      
-          else if (MP==100)               // nut mac dinh bom 40k 
+          else if (MP==100)               // nut mac dinh bom 100k 
           { 
            lcd_gotoxy(31,1);
-            printf(lcd_putc,"40000");
-             a = 40000;
-             c = a/b;
-             d = c/(2.25e-3);  
+            printf(lcd_putc,"100000");
+             tien_Mua_macdinh = 100000;
+             tinhXung_can_dem(&tien_Mua_macdinh,&gia_Tien_1l);
           }
-           else if (MP==22)
+           else if (MP==22)                     // nut reset(xoa SO TIEN, SO LIT, DON GIA) va reset relay
           { output_bit(PIN_A0, 1);
-          c = 0;
-          d = m = f = 0 ;
-          tien = 0.00000;
+          soLit_can_dem = 0;
+          soXung_can_dem = m = giaTri_nhap = 0 ;
+          soTien_tra = 0;
           k = LIT = 0;         
           lcd_gotoxy(31,1);
           for (a1=0; a1<16; a1++)
@@ -142,7 +148,7 @@ void main()
                   {
                      if(MP<11) 
                           {    m1 = m1++;
-                               b = b*(10^(m1)) + MP;
+                               gia_Tien_1l = gia_Tien_1l*(10^(m1)) + MP;
                                for(a2=0; a2<16; a2++)
                                {
                                   CHUOI2[a2]=CHUOI2[a2+1];
@@ -164,7 +170,7 @@ void main()
                     else if (MP == 24)    // xoa gia tri don gia hien tai
                          {
                             m1 =0;
-                            b = 0; 
+                            gia_Tien_1l = 0; 
                             lcd_gotoxy(21,2);
                             for (a2=0; a2<16; a2++)
                             {
@@ -175,7 +181,7 @@ void main()
        }
                   
       lcd_gotoxy(1,1);                          // dong 1 
-      printf(lcd_putc,"SO TIEN: %0.0f", tien);  // hien thi tien phai tra
+      printf(lcd_putc,"SO TIEN: %0.0f", soTien_tra);  // hien thi tien phai tra
       lcd_gotoxy(1,2);                          // dong 2
       printf(lcd_putc,"SO LIT: %0.3f ", LIT);   // hien thi so lit 
       lcd_gotoxy(21,1);                         // dong 3
@@ -183,9 +189,8 @@ void main()
       lcd_gotoxy(21,2);                         // dong 4
       printf(lcd_putc,"DON GIA: ");             // hien thi don gia 1 lit
      
-                   
                 goto LAP;
                  
                   }
-                  
+             
 
