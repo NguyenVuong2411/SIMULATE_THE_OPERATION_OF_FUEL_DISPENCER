@@ -1,7 +1,7 @@
 #include <main.h>
 #use delay(crystal=20000000)
 
-char *SSID="";                  //ten wifi
+char *SSID="";                  //ten wifi.
 char *PASS="";            //pass wifi
 char *WEBSITE="api.thingspeak.com"; //trang web thingspeak 
 
