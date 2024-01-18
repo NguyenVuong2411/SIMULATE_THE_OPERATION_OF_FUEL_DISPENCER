@@ -102,8 +102,7 @@ void main()
           else if(MP==50)                 // nut mac dinh bom 30k
           { 
            lcd_gotoxy(31,1);
-           printf(lcd_putc,"30000");   
-             a = 30000;    
+           printf(lcd_putc,"30000");       
              c = a/b;
              d = c/(2.25e-3);
                   }
