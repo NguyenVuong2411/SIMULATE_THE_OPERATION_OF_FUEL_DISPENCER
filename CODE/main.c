@@ -19,8 +19,8 @@ char *WEBSITE="api.thingspeak.com"; //trang web thingspeak
  // KHAI BAO BIEN//
 
 unsigned int8 CHUOI1[] = {"                "};
-unsigned int16 a1, a2, m1, m, k;
-float tien_Mua_macdinh, gia_Tien_1l,soLit_can_dem, soXung_can_dem, giaTri_nhap, LIT, soTien_tra, tienNghin;
+unsigned int16 a1, a2, m1, m, k ;
+float tien_Mua_macdinh, gia_Tien_1l,soLit_can_dem, soXung_can_dem, giaTri_nhap, LIT,soTien_tra, tienNghin ;
 unsigned int8 CHUOI2[] = {"                "};
 // KHAI BAO HAM//
 void tinhXung_can_dem(float *a ,float *b );
@@ -132,8 +132,7 @@ void main()
           { output_bit(PIN_A0, 1);
           soLit_can_dem = 0;
           soXung_can_dem = m = giaTri_nhap = 0 ;
-          soTien_tra = 0;
-          k = LIT = 0;         
+          soTien_tra = k = LIT = 0;         
           lcd_gotoxy(31,1);
           for (a1=0; a1<16; a1++)
                {CHUOI1[a1]= 0x01;
@@ -181,7 +180,7 @@ void main()
        }
                   
       lcd_gotoxy(1,1);                          // dong 1 
-      printf(lcd_putc,"SO TIEN: %0.0f", soTien_tra);  // hien thi tien phai tra
+      printf(lcd_putc,"SO TIEN: %f", soTien_tra);  // hien thi tien phai tra
       lcd_gotoxy(1,2);                          // dong 2
       printf(lcd_putc,"SO LIT: %0.3f ", LIT);   // hien thi so lit 
       lcd_gotoxy(21,1);                         // dong 3
